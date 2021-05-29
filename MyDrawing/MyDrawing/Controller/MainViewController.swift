@@ -25,6 +25,10 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         settingUI()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        drawingView.myDraw()
+    }
     
     // MARK: - Setting
     private func settingUI() {
@@ -37,6 +41,7 @@ class MainViewController: UIViewController {
     // MARK: - Button Action
     
     @IBAction func saveAction(_ sender: Any) {
+        model.saveCoreDataLines()
         let size = drawingView.bounds
         
         let image = model.saveDrawing(size) ?? UIImage()
@@ -47,7 +52,11 @@ class MainViewController: UIViewController {
     }
     //불러오기
     @IBAction func loadAction(_ sender: UIButton) {
-        drawingView.myDraw()
+        DrawSaveDataManager.shared.getData()
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoadViewController") as! LoadViewController
+        vc.model = model
+        vc.loadDrawingUpdateDelegate = self
+        present(vc, animated: true, completion: nil)
     }
     //그림추가
     @IBAction func backgroundAdd(_ sender: UIButton) {
@@ -97,7 +106,9 @@ class MainViewController: UIViewController {
             print("Image saved Success")
         }
     }
-
+    deinit {
+        print("Main Deinit")
+    }
     
 }
 
@@ -135,5 +146,11 @@ extension MainViewController: UIImagePickerControllerDelegate, UINavigationContr
             drawingView.myDraw()
         }
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: LoadDrawingHelpable {
+    func updateDraw() {
+        drawingView.myDraw()
     }
 }

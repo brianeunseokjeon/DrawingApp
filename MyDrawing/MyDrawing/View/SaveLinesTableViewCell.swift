@@ -9,9 +9,21 @@ import UIKit
 
 class SaveLinesTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var linesPreview: DrawingPreview!
+    @IBOutlet weak var makeDateLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    func settingUI(lines:[DrawingEntity]?,date:Date?) {
+        guard let lines = lines , let date = date else {return}
+        let dateformatter = DateFormatter().myFormatter()
+        makeDateLabel.text = dateformatter.string(from: date)
+        linesPreview.drawingLines = lines
+        linesPreview.myDraw()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -21,3 +33,5 @@ class SaveLinesTableViewCell: UITableViewCell {
     }
 
 }
+
+

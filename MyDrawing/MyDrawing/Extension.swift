@@ -22,6 +22,16 @@ extension UIView {
     }
 }
 
+
+extension DateFormatter {
+    func myFormatter() -> DateFormatter {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy년 M월 dd일 HH시 mm분"
+        return df
+    }
+}
+
+
 //extension UIImage {
 //    func resized(toWidth width: CGFloat, interpolationQuality: CGInterpolationQuality = .none) -> CGContext {
 //        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))

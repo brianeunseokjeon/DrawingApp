@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageCollectionViewCell: UICollectionViewCell {
+final class ImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var penImageView: UIImageView!
     @IBOutlet weak var penImageViewHeight: NSLayoutConstraint!

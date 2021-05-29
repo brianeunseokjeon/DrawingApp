@@ -47,16 +47,6 @@ struct Blue: PencilType {
     var color: UIColor = .blue
     var image: UIImage = #imageLiteral(resourceName: "Blue")
 }
-//struct Indigo: PencilType {
-//    var tag = 7
-//    var color: UIColor = .systemIndigo
-//    var image: UIImage = #imageLiteral(resourceName: "Grey")
-//}
-//struct Purple: PencilType {
-//    var tag = 8
-//    var color: UIColor = .purple
-//    var image: UIImage = #imageLiteral(resourceName: "Grey")
-//}
 struct Eraser: PencilType {
     var tag: Int = 7
     var color: UIColor = .white

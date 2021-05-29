@@ -10,6 +10,10 @@
 		1FC43AB3266147E00026C909 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43AB2266147E00026C909 /* Extension.swift */; };
 		1FC43AC126623C0F0026C909 /* LoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43AC026623C0F0026C909 /* LoadViewController.swift */; };
 		1FC43AC626623CCB0026C909 /* SaveLinesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43AC526623CCB0026C909 /* SaveLinesTableViewCell.swift */; };
+		1FC43AE72662445C0026C909 /* DrawLines+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43AE52662445C0026C909 /* DrawLines+CoreDataClass.swift */; };
+		1FC43AE82662445C0026C909 /* DrawLines+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43AE62662445C0026C909 /* DrawLines+CoreDataProperties.swift */; };
+		1FC43AED266245770026C909 /* DrawSaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43AEC266245770026C909 /* DrawSaveDataManager.swift */; };
+		1FC43B1326628E820026C909 /* DrawingPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC43B1226628E820026C909 /* DrawingPreview.swift */; };
 		2B79A1AF2660B46A00A678A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B79A1AE2660B46A00A678A3 /* AppDelegate.swift */; };
 		2B79A1B12660B46A00A678A3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B79A1B02660B46A00A678A3 /* SceneDelegate.swift */; };
 		2B79A1B32660B46A00A678A3 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B79A1B22660B46A00A678A3 /* MainViewController.swift */; };
@@ -46,6 +50,10 @@
 		1FC43AB2266147E00026C909 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		1FC43AC026623C0F0026C909 /* LoadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadViewController.swift; sourceTree = "<group>"; };
 		1FC43AC526623CCB0026C909 /* SaveLinesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveLinesTableViewCell.swift; sourceTree = "<group>"; };
+		1FC43AE52662445C0026C909 /* DrawLines+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrawLines+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		1FC43AE62662445C0026C909 /* DrawLines+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrawLines+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		1FC43AEC266245770026C909 /* DrawSaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawSaveDataManager.swift; sourceTree = "<group>"; };
+		1FC43B1226628E820026C909 /* DrawingPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPreview.swift; sourceTree = "<group>"; };
 		2B79A1AB2660B46A00A678A3 /* MyDrawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyDrawing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B79A1AE2660B46A00A678A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B79A1B02660B46A00A678A3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +100,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1FC43AE4266243890026C909 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				1FC43AEC266245770026C909 /* DrawSaveDataManager.swift */,
+				1FC43AE52662445C0026C909 /* DrawLines+CoreDataClass.swift */,
+				1FC43AE62662445C0026C909 /* DrawLines+CoreDataProperties.swift */,
+				2B79A1B72660B46A00A678A3 /* MyDrawing.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		2B79A1A22660B46A00A678A3 = {
 			isa = PBXGroup;
 			children = (
@@ -121,11 +140,11 @@
 				2B79A2032660DF0400A678A3 /* Controller */,
 				2B79A2022660DEF700A678A3 /* View */,
 				2B79A2012660DEED00A678A3 /* Model */,
+				1FC43AE4266243890026C909 /* CoreData */,
 				2B79A1B42660B46A00A678A3 /* Main.storyboard */,
 				2B79A1BA2660B46D00A678A3 /* Assets.xcassets */,
 				2B79A1BC2660B46D00A678A3 /* LaunchScreen.storyboard */,
 				2B79A1BF2660B46D00A678A3 /* Info.plist */,
-				2B79A1B72660B46A00A678A3 /* MyDrawing.xcdatamodeld */,
 			);
 			path = MyDrawing;
 			sourceTree = "<group>";
@@ -163,6 +182,7 @@
 				2B79A1ED2660B81600A678A3 /* ImageCollectionViewCell.swift */,
 				2B79A1F72660C67F00A678A3 /* DrawingView.swift */,
 				1FC43AC526623CCB0026C909 /* SaveLinesTableViewCell.swift */,
+				1FC43B1226628E820026C909 /* DrawingPreview.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -309,10 +329,14 @@
 				1FC43AC126623C0F0026C909 /* LoadViewController.swift in Sources */,
 				2B79A1F82660C67F00A678A3 /* DrawingView.swift in Sources */,
 				2B79A1B92660B46A00A678A3 /* MyDrawing.xcdatamodeld in Sources */,
+				1FC43B1326628E820026C909 /* DrawingPreview.swift in Sources */,
+				1FC43AED266245770026C909 /* DrawSaveDataManager.swift in Sources */,
 				2B79A1FD2660C92500A678A3 /* Pencil.swift in Sources */,
 				1FC43AC626623CCB0026C909 /* SaveLinesTableViewCell.swift in Sources */,
+				1FC43AE72662445C0026C909 /* DrawLines+CoreDataClass.swift in Sources */,
 				2B79A1EE2660B81600A678A3 /* ImageCollectionViewCell.swift in Sources */,
 				2B79A1B32660B46A00A678A3 /* MainViewController.swift in Sources */,
+				1FC43AE82662445C0026C909 /* DrawLines+CoreDataProperties.swift in Sources */,
 				1FC43AB3266147E00026C909 /* Extension.swift in Sources */,
 				2B79A1AF2660B46A00A678A3 /* AppDelegate.swift in Sources */,
 				2B79A1F32660BB8E00A678A3 /* DrawingModel.swift in Sources */,

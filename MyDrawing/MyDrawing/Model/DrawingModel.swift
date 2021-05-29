@@ -7,21 +7,48 @@
 
 import UIKit
 
-struct DrawingEntity {
+public final class DrawingEntity: NSObject, NSCoding {
+    public func encode(with coder: NSCoder) {
+        coder.encode(color, forKey: "color")
+        coder.encode(width, forKey: "width")
+        coder.encode(opacity, forKey: "opacity")
+        coder.encode(points, forKey: "points")
+
+    }
+    public override init() { }
+    
+    public init?(coder: NSCoder) {
+        guard let color = coder.decodeObject(forKey: "color") as? UIColor,
+        let width = coder.decodeObject(forKey: "width") as? CGFloat,
+        let opacity = coder.decodeObject(forKey: "opacity") as? CGFloat,
+        let points = coder.decodeObject(forKey: "points") as? [CGPoint] else {return}
+        self.color = color
+        self.width = width
+        self.opacity = opacity
+        self.points = points
+
+    }
+    
     var color: UIColor = .black
     var width: CGFloat = 1.0
     var opacity: CGFloat = 1.0
     var points: [CGPoint] = []
+    
 }
 
-protocol DrawingGUIProtocol {
+
+
+protocol DrawingGUIProtocol: class {
     func draw(size:CGRect)
     func touchesBeganDrawingLineAppend()
     func touchesMoved(_ location:CGPoint,completion:()->())
     func clearDrawingView(completion:()->())
     func undoDrawing(completion:()->())
     func redoDrawing(completion:()->())
+    func loadDrawing(_ entity:[DrawingEntity])
 }
+
+
 
 protocol PencilGUIProtocol {
     var pencilSet: [PencilType] {get}
@@ -31,12 +58,11 @@ protocol PencilGUIProtocol {
     func pencilSelect(_ tag:Int)
 }
 
-class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
+final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     private var drawingLines = [DrawingEntity]()
     private var drawedLines = [DrawingEntity]()
     
     let pencilSet = Pencil().set
-    
     var currentColor: UIColor = .black
     var currentWidth: CGFloat = 10.0
     var currentOpacity: CGFloat = 1.0
@@ -76,7 +102,7 @@ class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     }
     
     func touchesMoved(_ location:CGPoint,completion:()->()) {
-        guard var lastPoint = drawingLines.popLast() else {return}
+        guard let lastPoint = drawingLines.popLast() else {return}
         lastPoint.points.append(location)
         lastPoint.color = currentColor
         lastPoint.width = currentWidth
@@ -107,6 +133,10 @@ class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
         }
     }
     
+    func loadDrawing(_ entity: [DrawingEntity]) {
+        drawingLines = entity
+        drawedLines.removeAll()
+    }
     
     
     func saveDrawing(_ size:CGRect) -> UIImage? {
@@ -116,6 +146,14 @@ class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
         defer { UIGraphicsEndImageContext() }
         return image
     }
+    
+    
+    func saveCoreDataLines() {
+        DrawSaveDataManager.shared.save(lines: drawingLines)
+    }
+    
+    
+    
 }
 
 
