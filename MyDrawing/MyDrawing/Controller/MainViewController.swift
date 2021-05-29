@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
         imagePikcerController.delegate = self
         view.backgroundColor = .white
         drawingView.model = model
-        model.image = #imageLiteral(resourceName: "aaa")
+//        model.image = #imageLiteral(resourceName: "aaa")
     }
     
     // MARK: - Button Action
