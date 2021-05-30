@@ -66,6 +66,8 @@ final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     var currentColor: UIColor = .black
     var currentWidth: CGFloat = 10.0
     var currentOpacity: CGFloat = 1.0
+    var isPenOpen = true
+
     
     func pencilSelect(_ tag:Int) {
         currentColor = pencilSet[tag].color

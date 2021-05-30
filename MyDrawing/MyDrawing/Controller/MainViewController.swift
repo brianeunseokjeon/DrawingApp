@@ -19,7 +19,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var penBottomLayout: NSLayoutConstraint!
     private let imagePikcerController = UIImagePickerController()
     
-    var isPenOpen = true
     // MARK: - ViewLifyCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,8 +72,8 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func showUpPenAndErase(_ sender: UIButton) {
-        if isPenOpen {
-            isPenOpen = false
+        if model.isPenOpen {
+            model.isPenOpen = false
             UIView.animate(withDuration: 0.3) {
                 self.penBottomLayout.constant = -180
                 self.view.layoutIfNeeded()
@@ -82,7 +81,7 @@ class MainViewController: UIViewController {
                 self.collectionView.isHidden = true
             }
         } else {
-            isPenOpen = true
+            model.isPenOpen = true
             self.collectionView.isHidden = false
 
             UIView.animate(withDuration: 0.3) {
