@@ -32,10 +32,10 @@ struct Home: View {
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
-                CanvasViewWrapper(model: $model, updateUI: $updateUI)
+                DrawingViewWrapper(model: $model, updateUI: $updateUI)
                     .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarItems(leading: HStack(spacing:20) {
-                        HStack(spacing:5){
+                    .navigationBarItems(leading: HStack(spacing:UIModel.navigationLongPadding) {
+                        HStack(spacing:UIModel.navigationShortPadding){
                             Button(action: {
                                 model.saveDrawingAndwriteToPhotoAlbum(size: CGRect(x: 0, y: 0, width: geometry.size.width, height: geometry.size.height))
                             }, label: {
@@ -58,9 +58,9 @@ struct Home: View {
                             Text("ADD")
                         })
                         
-                       
-                    },trailing: HStack(spacing:20) {
-                        HStack(spacing:5){
+                        
+                    },trailing: HStack(spacing:UIModel.navigationLongPadding) {
+                        HStack(spacing:UIModel.navigationShortPadding){
                             Button(action: {
                                 model.undoDrawing {
                                     updateUI()
@@ -77,12 +77,11 @@ struct Home: View {
                             }
                             
                         }
-                        HStack(spacing:5) {
+                        HStack(spacing:UIModel.navigationShortPadding) {
                             Button(action: {
                                 withAnimation {
                                     pencilViewHidden()
                                 }
-                                
                             }, label: {
                                 Text("PEN")
                             })
@@ -106,7 +105,7 @@ struct Home: View {
         
         if pencilViewIsHidden {
             PencilViewWrapper(model: $model)
-                .frame(width: UIScreen.main.bounds.width, height: 160, alignment: .bottom)
+                .frame(width: UIScreen.main.bounds.width, height: UIModel.pencilViewHeight, alignment: .bottom)
                 .transition(.move(edge: .bottom))
         }
         
@@ -120,7 +119,7 @@ struct Home: View {
 }
 
 
-struct CanvasViewWrapper : UIViewRepresentable {
+struct DrawingViewWrapper : UIViewRepresentable {
     @Binding var model: DrawingModel
     @Binding var updateUI: () -> ()
     
@@ -131,8 +130,8 @@ struct CanvasViewWrapper : UIViewRepresentable {
     }
     func updateUIView(_ uiView: DrawingView, context: Context) {
         uiView.backgroundColor = .white
-        updateUI = {
-            uiView.myDraw()
+        updateUI = { [weak uiView] in
+            uiView?.myDraw()
         }
         if model.image != nil {
             uiView.myDraw()
@@ -179,10 +178,3 @@ struct LoadView: View {
 
 
 
-extension DateFormatter {
-    func myFormatter() -> DateFormatter {
-        let df = DateFormatter()
-        df.dateFormat = "yyyy년 M월 dd일 HH시 mm분"
-        return df
-    }
-}

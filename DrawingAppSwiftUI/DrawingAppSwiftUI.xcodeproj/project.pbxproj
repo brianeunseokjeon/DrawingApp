@@ -26,6 +26,8 @@
 		1FEE71B52663D79C0015AA53 /* DrawLines+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71B32663D79C0015AA53 /* DrawLines+CoreDataClass.swift */; };
 		1FEE71B62663D79C0015AA53 /* DrawLines+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71B42663D79C0015AA53 /* DrawLines+CoreDataProperties.swift */; };
 		1FEE71BB2663D7CA0015AA53 /* DrawSaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71BA2663D7CA0015AA53 /* DrawSaveDataManager.swift */; };
+		1FEE71C32663E7D60015AA53 /* UIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71C22663E7D60015AA53 /* UIModel.swift */; };
+		1FEE71C82663E8BD0015AA53 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71C72663E8BD0015AA53 /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,8 @@
 		1FEE71B32663D79C0015AA53 /* DrawLines+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrawLines+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		1FEE71B42663D79C0015AA53 /* DrawLines+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrawLines+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		1FEE71BA2663D7CA0015AA53 /* DrawSaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawSaveDataManager.swift; sourceTree = "<group>"; };
+		1FEE71C22663E7D60015AA53 /* UIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIModel.swift; sourceTree = "<group>"; };
+		1FEE71C72663E8BD0015AA53 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +132,7 @@
 				1FEE719C2663BAD10015AA53 /* View */,
 				1FEE719D2663BAE70015AA53 /* Model */,
 				1FEE71AF2663D72E0015AA53 /* CoredData */,
+				1FEE71C72663E8BD0015AA53 /* Extension.swift */,
 				1FC43B2F2662A1F20026C909 /* Assets.xcassets */,
 				1FC43B342662A1F20026C909 /* LaunchScreen.storyboard */,
 				1FC43B372662A1F20026C909 /* Info.plist */,
@@ -176,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				1FEE717F266343970015AA53 /* DrawingModel.swift */,
+				1FEE71C22663E7D60015AA53 /* UIModel.swift */,
 				1FEE7184266343BC0015AA53 /* Pencil.swift */,
 				1FEE719E2663BB0F0015AA53 /* ImageSaver.swift */,
 			);
@@ -337,6 +343,8 @@
 				1FC43B292662A1F10026C909 /* SceneDelegate.swift in Sources */,
 				1FEE717B2663436D0015AA53 /* DrawingView.swift in Sources */,
 				1FC43B2E2662A1F10026C909 /* DrawingAppSwiftUI.xcdatamodeld in Sources */,
+				1FEE71C32663E7D60015AA53 /* UIModel.swift in Sources */,
+				1FEE71C82663E8BD0015AA53 /* Extension.swift in Sources */,
 				1FEE71B52663D79C0015AA53 /* DrawLines+CoreDataClass.swift in Sources */,
 				1FEE7180266343970015AA53 /* DrawingModel.swift in Sources */,
 				1FEE71A42663C0180015AA53 /* ImageController.swift in Sources */,
