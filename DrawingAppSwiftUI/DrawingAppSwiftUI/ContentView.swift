@@ -100,7 +100,8 @@ struct Home: View {
                     })
             }
             
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
+
         
         
         if pencilViewIsHidden {
