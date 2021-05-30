@@ -26,87 +26,93 @@ struct Home: View {
     @State private var updateUI = {}
     @State private var pencilViewIsHidden = false
     @State private var isImagePickerDisplay = false
-    @State private var selectedImage: UIImage?
-
-
+    
+    
     var rect:CGRect = .zero
     let imageSaver = ImageSaver()
     
     var body: some View {
         NavigationView {
-            CanvasViewWrapper(model: $model, updateUI: $updateUI)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarItems(leading: HStack(spacing:20) {
-                    HStack(spacing:5){
+            GeometryReader { geometry in
+                CanvasViewWrapper(model: $model, updateUI: $updateUI)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarItems(leading: HStack(spacing:20) {
+                        HStack(spacing:5){
+                            Button(action: {
+                                saveImage(size: CGRect(x: 0, y: 0, width: geometry.size.width, height: geometry.size.height))
+                            }, label: {
+                                Text("SAVE")
+                            })
+                            Button(action: {
+                                
+                            }, label: {
+                                Text("LOAD")
+                            })
+                            
+                        }
                         Button(action: {
-                            saveImage()
-                        }, label: {
-                            Text("SAVE")
-                        })
-                        Button(action: {
+                            isImagePickerDisplay.toggle()
                             
                         }, label: {
-                            Text("LOAD")
+                            Text("ADD")
                         })
                         
-                    }
-                    Button(action: {
-                        isImagePickerDisplay.toggle()
+                       
+                    },trailing: HStack(spacing:20) {
+                        HStack(spacing:5){
+                            Button(action: {
+                                model.undoDrawing {
+                                    updateUI()
+                                }
+                            }) {
+                                Image(systemName: "arrow.left")
+                            }
+                            Button(action: {
+                                model.redoDrawing {
+                                    updateUI()
+                                }
+                            }){
+                                Image(systemName: "arrow.right")
+                            }
+                            
+                        }
+                        HStack(spacing:5) {
+                            Button(action: {
+                                withAnimation {
+                                    pencilViewHidden()
+                                }
+                                
+                            }, label: {
+                                Text("PEN")
+                            })
+                            Button(action: {
+                                model.clearDrawingView {
+                                    updateUI()
+                                }
+                            }, label: {
+                                Text("CLEAN")
+                            })
+                            
+                        }
+                    }).sheet(isPresented: $isImagePickerDisplay, content: {
+                        ImagePickerView(model: $model)
                         
-                    }, label: {
-                        Text("ADD")
                     })
-                },trailing: HStack(spacing:20) {
-                    HStack(spacing:5){
-                        Button(action: {
-                            model.undoDrawing {
-                                updateUI()
-                            }
-                        }) {
-                            Image(systemName: "arrow.left")
-                        }
-                        Button(action: {
-                            model.redoDrawing {
-                                updateUI()
-                            }
-                        }){
-                            Image(systemName: "arrow.right")
-                        }
-                        
-                    }
-                    HStack(spacing:5) {
-                        Button(action: {
-                            withAnimation {
-                                pencilViewHidden()
-                            }
-                            
-                        }, label: {
-                            Text("PEN")
-                        })
-                        Button(action: {
-                            model.clearDrawingView {
-                                updateUI()
-                            }
-                        }, label: {
-                            Text("CLEAN")
-                        })
-                        
-                    }
-                }).sheet(isPresented: $isImagePickerDisplay, content: {
-                    ImagePickerView(model: $model, sourceType: .photoLibrary)
-
-                })
+            }
+            
         }
+        
+        
         if pencilViewIsHidden {
             PencilViewWrapper(model: $model)
                 .frame(width: UIScreen.main.bounds.width, height: 160, alignment: .bottom)
                 .transition(.move(edge: .bottom))
         }
-            
+        
     }
     
-    func saveImage() {
-        let image = model.saveDrawing(UIScreen.main.bounds) ?? UIImage()
+    func saveImage(size:CGRect) {
+        let image = model.saveDrawing(size) ?? UIImage()
         imageSaver.writeToPhotoAlbum(image: image)
     }
     
@@ -131,6 +137,9 @@ struct CanvasViewWrapper : UIViewRepresentable {
         updateUI = {
             uiView.myDraw()
         }
+        if model.image != nil {
+            uiView.myDraw()
+        }
     }
 }
 
@@ -142,9 +151,44 @@ struct PencilViewWrapper: UIViewRepresentable {
         return view
     }
     func updateUIView(_ uiView: PencilView, context: Context) {
-
+        
     }
 }
 
 
 
+struct ImagePickerView: UIViewControllerRepresentable {
+    @Binding var model: DrawingModel
+    @Environment(\.presentationMode) var isPresented
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = context.coordinator
+        return imagePicker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
+        
+    }
+    
+    func makeCoordinator() -> Coordinator {
+           return Coordinator(picker: self)
+       }
+}
+
+
+class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    var picker: ImagePickerView
+    
+    init(picker: ImagePickerView) {
+        self.picker = picker
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[.originalImage] as? UIImage else { return }
+        self.picker.model.image = selectedImage
+        self.picker.isPresented.wrappedValue.dismiss()
+    }
+    
+}
