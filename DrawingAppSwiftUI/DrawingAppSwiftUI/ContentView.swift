@@ -27,9 +27,7 @@ struct Home: View {
     @State private var pencilViewIsHidden = false
     @State private var isImagePickerDisplay = false
     
-    
-    var rect:CGRect = .zero
-    let imageSaver = ImageSaver()
+    @State var presentLoadView = false
     
     var body: some View {
         NavigationView {
@@ -39,14 +37,17 @@ struct Home: View {
                     .navigationBarItems(leading: HStack(spacing:20) {
                         HStack(spacing:5){
                             Button(action: {
-                                saveImage(size: CGRect(x: 0, y: 0, width: geometry.size.width, height: geometry.size.height))
+                                model.saveDrawingAndwriteToPhotoAlbum(size: CGRect(x: 0, y: 0, width: geometry.size.width, height: geometry.size.height))
                             }, label: {
                                 Text("SAVE")
                             })
                             Button(action: {
+                                presentLoadView = true
                                 
                             }, label: {
                                 Text("LOAD")
+                            }).sheet(isPresented: $presentLoadView, content: {
+                                LoadView(isPresent: $presentLoadView, model: $model)
                             })
                             
                         }
@@ -111,10 +112,6 @@ struct Home: View {
         
     }
     
-    func saveImage(size:CGRect) {
-        let image = model.saveDrawing(size) ?? UIImage()
-        imageSaver.writeToPhotoAlbum(image: image)
-    }
     
     func pencilViewHidden() {
         pencilViewIsHidden.toggle()
@@ -140,6 +137,10 @@ struct CanvasViewWrapper : UIViewRepresentable {
         if model.image != nil {
             uiView.myDraw()
         }
+        if model.isLoadDismiss {
+            model.isLoadDismiss = false
+            uiView.myDraw()
+        }
     }
 }
 
@@ -157,38 +158,31 @@ struct PencilViewWrapper: UIViewRepresentable {
 
 
 
-struct ImagePickerView: UIViewControllerRepresentable {
+struct LoadView: View {
+    @Binding var isPresent: Bool
     @Binding var model: DrawingModel
-    @Environment(\.presentationMode) var isPresented
-    
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = context.coordinator
-        return imagePicker
+    private let dateFormatter = DateFormatter().myFormatter()
+    var body: some View {
+        List(0 ..< DrawSaveDataManager.shared.histories.count) { list in
+            let data = DrawSaveDataManager.shared.histories[list]
+            let date = data.saveDate!
+            let entity = data.saveDrawing!
+            Button(action: {
+                model.loadDrawing(entity)
+                isPresent = false
+            }, label: {
+                Text("생성일 : \(dateFormatter.string(from: date))")
+            })
+        }
     }
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {
-        
-    }
-    
-    func makeCoordinator() -> Coordinator {
-           return Coordinator(picker: self)
-       }
 }
 
 
-class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    var picker: ImagePickerView
-    
-    init(picker: ImagePickerView) {
-        self.picker = picker
+
+extension DateFormatter {
+    func myFormatter() -> DateFormatter {
+        let df = DateFormatter()
+        df.dateFormat = "yyyy년 M월 dd일 HH시 mm분"
+        return df
     }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let selectedImage = info[.originalImage] as? UIImage else { return }
-        self.picker.model.image = selectedImage
-        self.picker.isPresented.wrappedValue.dismiss()
-    }
-    
 }

@@ -59,6 +59,7 @@ protocol PencilGUIProtocol {
 final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     private var drawingLines = [DrawingEntity]()
     private var drawedLines = [DrawingEntity]()
+    private let imageSaver = ImageSaver()
     
     let pencilSet = Pencil().set
     var currentColor: UIColor = .black
@@ -68,6 +69,8 @@ final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     func pencilSelect(_ tag:Int) {
         currentColor = pencilSet[tag].color
     }
+    
+    var isLoadDismiss = false
     
     var image: UIImage?
     
@@ -132,25 +135,33 @@ final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     }
     
     func loadDrawing(_ entity: [DrawingEntity]) {
+        isLoadDismiss = true
         drawingLines = entity
         drawedLines.removeAll()
     }
-    
-    // line save + ( image + line )
+    // image + line
     func saveDrawing(_ size:CGRect) -> UIImage? {
-        saveCoreDataLines()
-        
         UIGraphicsBeginImageContext(size.size)
         draw(size: size)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         defer { UIGraphicsEndImageContext() }
         return image
     }
+    
     //only line save
     func saveCoreDataLines() {
         DrawSaveDataManager.shared.save(lines: drawingLines)
     }
 
+    // line save + ( image + line in photo album)
+    func saveDrawingAndwriteToPhotoAlbum(size:CGRect) {
+        saveCoreDataLines()
+        
+        let image = saveDrawing(size) ?? UIImage()
+        imageSaver.writeToPhotoAlbum(image: image)
+    }
+
+    
     
     
 }
