@@ -136,15 +136,21 @@ final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
         drawedLines.removeAll()
     }
     
-    
+    // line save + ( image + line )
     func saveDrawing(_ size:CGRect) -> UIImage? {
+        saveCoreDataLines()
+        
         UIGraphicsBeginImageContext(size.size)
         draw(size: size)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         defer { UIGraphicsEndImageContext() }
         return image
     }
-    
+    //only line save
+    func saveCoreDataLines() {
+        DrawSaveDataManager.shared.save(lines: drawingLines)
+    }
+
     
     
 }

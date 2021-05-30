@@ -23,6 +23,9 @@
 		1FEE7198266371490015AA53 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE7197266371490015AA53 /* ImageCollectionViewCell.swift */; };
 		1FEE719F2663BB0F0015AA53 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE719E2663BB0F0015AA53 /* ImageSaver.swift */; };
 		1FEE71A42663C0180015AA53 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71A32663C0180015AA53 /* ImageController.swift */; };
+		1FEE71B52663D79C0015AA53 /* DrawLines+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71B32663D79C0015AA53 /* DrawLines+CoreDataClass.swift */; };
+		1FEE71B62663D79C0015AA53 /* DrawLines+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71B42663D79C0015AA53 /* DrawLines+CoreDataProperties.swift */; };
+		1FEE71BB2663D7CA0015AA53 /* DrawSaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71BA2663D7CA0015AA53 /* DrawSaveDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,9 @@
 		1FEE7197266371490015AA53 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		1FEE719E2663BB0F0015AA53 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		1FEE71A32663C0180015AA53 /* ImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
+		1FEE71B32663D79C0015AA53 /* DrawLines+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrawLines+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		1FEE71B42663D79C0015AA53 /* DrawLines+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DrawLines+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		1FEE71BA2663D7CA0015AA53 /* DrawSaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawSaveDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,10 +127,10 @@
 				1FEE71A82663C01B0015AA53 /* Controller */,
 				1FEE719C2663BAD10015AA53 /* View */,
 				1FEE719D2663BAE70015AA53 /* Model */,
+				1FEE71AF2663D72E0015AA53 /* CoredData */,
 				1FC43B2F2662A1F20026C909 /* Assets.xcassets */,
 				1FC43B342662A1F20026C909 /* LaunchScreen.storyboard */,
 				1FC43B372662A1F20026C909 /* Info.plist */,
-				1FC43B2C2662A1F10026C909 /* DrawingAppSwiftUI.xcdatamodeld */,
 				1FC43B312662A1F20026C909 /* Preview Content */,
 			);
 			path = DrawingAppSwiftUI;
@@ -182,6 +188,17 @@
 				1FEE71A32663C0180015AA53 /* ImageController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		1FEE71AF2663D72E0015AA53 /* CoredData */ = {
+			isa = PBXGroup;
+			children = (
+				1FEE71BA2663D7CA0015AA53 /* DrawSaveDataManager.swift */,
+				1FEE71B32663D79C0015AA53 /* DrawLines+CoreDataClass.swift */,
+				1FEE71B42663D79C0015AA53 /* DrawLines+CoreDataProperties.swift */,
+				1FC43B2C2662A1F10026C909 /* DrawingAppSwiftUI.xcdatamodeld */,
+			);
+			path = CoredData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,11 +333,14 @@
 			files = (
 				1FC43B272662A1F10026C909 /* AppDelegate.swift in Sources */,
 				1FEE719326636E500015AA53 /* PencilView.swift in Sources */,
+				1FEE71BB2663D7CA0015AA53 /* DrawSaveDataManager.swift in Sources */,
 				1FC43B292662A1F10026C909 /* SceneDelegate.swift in Sources */,
 				1FEE717B2663436D0015AA53 /* DrawingView.swift in Sources */,
 				1FC43B2E2662A1F10026C909 /* DrawingAppSwiftUI.xcdatamodeld in Sources */,
+				1FEE71B52663D79C0015AA53 /* DrawLines+CoreDataClass.swift in Sources */,
 				1FEE7180266343970015AA53 /* DrawingModel.swift in Sources */,
 				1FEE71A42663C0180015AA53 /* ImageController.swift in Sources */,
+				1FEE71B62663D79C0015AA53 /* DrawLines+CoreDataProperties.swift in Sources */,
 				1FEE7198266371490015AA53 /* ImageCollectionViewCell.swift in Sources */,
 				1FEE719F2663BB0F0015AA53 /* ImageSaver.swift in Sources */,
 				1FC43B2B2662A1F10026C909 /* ContentView.swift in Sources */,
