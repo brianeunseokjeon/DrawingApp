@@ -10,6 +10,7 @@ import SwiftUI
 struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var model: DrawingModel
     @Environment(\.presentationMode) var isPresented
+    @Binding var backgroundImage: UIImage?
     
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
@@ -23,8 +24,8 @@ struct ImagePickerView: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-           return Coordinator(picker: self)
-       }
+        return Coordinator(picker: self)
+    }
 }
 
 
@@ -37,8 +38,9 @@ class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerContro
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedImage = info[.originalImage] as? UIImage else { return }
-        self.picker.model.image = selectedImage
+        let image = Util.resizeImage(image: selectedImage, newWidth: UIScreen.main.bounds.width)
+        self.picker.backgroundImage = image
         self.picker.isPresented.wrappedValue.dismiss()
     }
-    
+        
 }

@@ -28,6 +28,7 @@
 		1FEE71BB2663D7CA0015AA53 /* DrawSaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71BA2663D7CA0015AA53 /* DrawSaveDataManager.swift */; };
 		1FEE71C32663E7D60015AA53 /* UIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71C22663E7D60015AA53 /* UIModel.swift */; };
 		1FEE71C82663E8BD0015AA53 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71C72663E8BD0015AA53 /* Extension.swift */; };
+		1FEE71EB2664F2D90015AA53 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE71EA2664F2D90015AA53 /* Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		1FEE71BA2663D7CA0015AA53 /* DrawSaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawSaveDataManager.swift; sourceTree = "<group>"; };
 		1FEE71C22663E7D60015AA53 /* UIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIModel.swift; sourceTree = "<group>"; };
 		1FEE71C72663E8BD0015AA53 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		1FEE71EA2664F2D90015AA53 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				1FEE719D2663BAE70015AA53 /* Model */,
 				1FEE71AF2663D72E0015AA53 /* CoredData */,
 				1FEE71C72663E8BD0015AA53 /* Extension.swift */,
+				1FEE71EA2664F2D90015AA53 /* Util.swift */,
 				1FC43B2F2662A1F20026C909 /* Assets.xcassets */,
 				1FC43B342662A1F20026C909 /* LaunchScreen.storyboard */,
 				1FC43B372662A1F20026C909 /* Info.plist */,
@@ -343,6 +346,7 @@
 				1FC43B292662A1F10026C909 /* SceneDelegate.swift in Sources */,
 				1FEE717B2663436D0015AA53 /* DrawingView.swift in Sources */,
 				1FC43B2E2662A1F10026C909 /* DrawingAppSwiftUI.xcdatamodeld in Sources */,
+				1FEE71EB2664F2D90015AA53 /* Util.swift in Sources */,
 				1FEE71C32663E7D60015AA53 /* UIModel.swift in Sources */,
 				1FEE71C82663E8BD0015AA53 /* Extension.swift in Sources */,
 				1FEE71B52663D79C0015AA53 /* DrawLines+CoreDataClass.swift in Sources */,
@@ -522,7 +526,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"DrawingAppSwiftUI/Preview Content\"";
-				DEVELOPMENT_TEAM = 477EXL8ALT;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = DrawingAppSwiftUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -543,7 +547,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"DrawingAppSwiftUI/Preview Content\"";
-				DEVELOPMENT_TEAM = 477EXL8ALT;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = DrawingAppSwiftUI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

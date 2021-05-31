@@ -5,7 +5,7 @@
 //  Created by brian은석 on 2021/05/31.
 //
 
-import Foundation
+import UIKit
 
 extension DateFormatter {
     func myFormatter() -> DateFormatter {
@@ -14,3 +14,6 @@ extension DateFormatter {
         return df
     }
 }
+
+
+

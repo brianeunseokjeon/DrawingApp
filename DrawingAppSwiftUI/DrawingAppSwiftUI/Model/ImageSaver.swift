@@ -11,7 +11,7 @@ final class ImageSaver: NSObject {
     func writeToPhotoAlbum(image: UIImage) {
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(imageSaved), nil)
     }
-
+    
     @objc private func imageSaved(_ image: UIImage, didFinishSavingWithError error:Error?, contextType: UnsafeRawPointer) {
         if let error = error {
             print("DEBUG : Unable Image save",error.localizedDescription)

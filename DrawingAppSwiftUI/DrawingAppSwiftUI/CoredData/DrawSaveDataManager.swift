@@ -15,7 +15,7 @@ final class DrawSaveDataManager {
     private init() {}
     private var container: NSPersistentContainer?
     private let entityName = "DrawLines"
-
+    
     private var mainContext: NSManagedObjectContext {
         guard let context = container?.viewContext else {
             fatalError()
@@ -23,7 +23,7 @@ final class DrawSaveDataManager {
         return context
     }
     var histories:[DrawLines] = []
-
+    
     func setup(modelName: String) {
         container = NSPersistentContainer(name: modelName)
         container?.loadPersistentStores(completionHandler: { (desc, error) in
@@ -51,10 +51,10 @@ final class DrawSaveDataManager {
         } catch {
             print(error.localizedDescription)
         }
-
-
+        
+        
     }
-
+    
     func saveMainContext() {
         mainContext.performAndWait {
             if self.mainContext.hasChanges {
@@ -67,5 +67,5 @@ final class DrawSaveDataManager {
             }
         }
     }
-
+    
 }

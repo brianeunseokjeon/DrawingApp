@@ -27,95 +27,122 @@ struct Home: View {
     @State private var pencilViewIsHidden = false
     @State private var isImagePickerDisplay = false
     
-    @State var presentLoadView = false
+    @State private var presentLoadView = false
+    @State private var backgroundImage:UIImage? = UIImage()
+    
     
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
-                DrawingViewWrapper(model: $model, updateUI: $updateUI)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarItems(leading: HStack(spacing:UIModel.navigationLongPadding) {
-                        HStack(spacing:UIModel.navigationShortPadding){
+                ZStack {
+                    DrawingImageViewWrapper(backgroundImage: $backgroundImage)
+                    
+                    DrawingViewWrapper(model: $model, updateUI: $updateUI)
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationBarItems(leading: HStack(spacing:UIModel.navigationLongPadding) {
+                            HStack(spacing:UIModel.navigationShortPadding){
+                                Button(action: {
+                                    let rect = Util.calculateRectOfImageInImageView(frameSize: geometry.size, imgSize: backgroundImage?.size)
+                                    model.saveDrawingAndwriteToPhotoAlbum(drawingSize: geometry.size, imageCGRect: rect, backgroundImage: backgroundImage)
+                                }, label: {
+                                    Text("SAVE")
+                                })
+                                Button(action: {
+                                    presentLoadView = true
+                                    
+                                }, label: {
+                                    Text("LOAD")
+                                }).sheet(isPresented: $presentLoadView, content: {
+                                    LoadView(isPresent: $presentLoadView, model: $model)
+                                })
+                                
+                            }
                             Button(action: {
-                                model.saveDrawingAndwriteToPhotoAlbum(size: CGRect(x: 0, y: 0, width: geometry.size.width, height: geometry.size.height))
-                            }, label: {
-                                Text("SAVE")
-                            })
-                            Button(action: {
-                                presentLoadView = true
+                                isImagePickerDisplay.toggle()
                                 
                             }, label: {
-                                Text("LOAD")
-                            }).sheet(isPresented: $presentLoadView, content: {
-                                LoadView(isPresent: $presentLoadView, model: $model)
+                                Text("ADD")
                             })
                             
-                        }
-                        Button(action: {
-                            isImagePickerDisplay.toggle()
                             
-                        }, label: {
-                            Text("ADD")
+                        },trailing: HStack(spacing:UIModel.navigationLongPadding) {
+                            HStack(spacing:UIModel.navigationShortPadding){
+                                Button(action: {
+                                    model.undoDrawing {
+                                        updateUI()
+                                    }
+                                }) {
+                                    Image(systemName: "arrow.left")
+                                }
+                                Button(action: {
+                                    model.redoDrawing {
+                                        updateUI()
+                                    }
+                                }){
+                                    Image(systemName: "arrow.right")
+                                }
+                                
+                            }
+                            HStack(spacing:UIModel.navigationShortPadding) {
+                                Button(action: {
+                                    withAnimation {
+                                        pencilViewHidden()
+                                    }
+                                }, label: {
+                                    Text("PEN")
+                                })
+                                Button(action: {
+                                    backgroundImage = UIImage()
+                                    model.clearDrawingView {
+                                        updateUI()
+                                    }
+                                }, label: {
+                                    Text("CLEAN")
+                                })
+                                
+                            }
+                        }).sheet(isPresented: $isImagePickerDisplay, content: {
+                            ImagePickerView(model: $model, backgroundImage: $backgroundImage)
+                            
                         })
+                    if !pencilViewIsHidden {
                         
-                        
-                    },trailing: HStack(spacing:UIModel.navigationLongPadding) {
-                        HStack(spacing:UIModel.navigationShortPadding){
-                            Button(action: {
-                                model.undoDrawing {
-                                    updateUI()
-                                }
-                            }) {
-                                Image(systemName: "arrow.left")
-                            }
-                            Button(action: {
-                                model.redoDrawing {
-                                    updateUI()
-                                }
-                            }){
-                                Image(systemName: "arrow.right")
-                            }
-                            
+                        VStack(alignment: .leading) {
+                            Spacer().frame(maxWidth: .infinity)
+                            PencilViewWrapper(model: $model)
+                                .frame(width: UIScreen.main.bounds.width,
+                                       height: UIModel.pencilViewHeight,
+                                       alignment: .bottom)
+                                
+                                .transition(.move(edge: .bottom))
                         }
-                        HStack(spacing:UIModel.navigationShortPadding) {
-                            Button(action: {
-                                withAnimation {
-                                    pencilViewHidden()
-                                }
-                            }, label: {
-                                Text("PEN")
-                            })
-                            Button(action: {
-                                model.clearDrawingView {
-                                    updateUI()
-                                }
-                            }, label: {
-                                Text("CLEAN")
-                            })
-                            
-                        }
-                    }).sheet(isPresented: $isImagePickerDisplay, content: {
-                        ImagePickerView(model: $model)
-                        
-                    })
+                    }
+                }
             }
-            
         }.navigationViewStyle(StackNavigationViewStyle())
-
-        
-        
-        if pencilViewIsHidden {
-            PencilViewWrapper(model: $model)
-                .frame(width: UIScreen.main.bounds.width, height: UIModel.pencilViewHeight, alignment: .bottom)
-                .transition(.move(edge: .bottom))
-        }
         
     }
-    
     
     func pencilViewHidden() {
         pencilViewIsHidden.toggle()
     }
+}
+
+struct DrawingImageViewWrapper: UIViewRepresentable {
+    @Binding var backgroundImage: UIImage?
+    private let imageView = UIImageView()
+    
+    func makeUIView(context: Context) -> UIImageView {
+        imageView.image = backgroundImage
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }
+    func updateUIView(_ uiView: UIImageView, context: Context) {
+        if uiView.image != backgroundImage {
+            uiView.image = backgroundImage
+        }
+    }
+    
     
 }
 
@@ -126,16 +153,14 @@ struct DrawingViewWrapper : UIViewRepresentable {
     
     func makeUIView(context: Context) -> DrawingView {
         let view = DrawingView()
+        
         view.model = model
         return view
     }
     func updateUIView(_ uiView: DrawingView, context: Context) {
-        uiView.backgroundColor = .white
+        uiView.backgroundColor = .clear
         updateUI = { [weak uiView] in
             uiView?.myDraw()
-        }
-        if model.image != nil {
-            uiView.myDraw()
         }
         if model.isLoadDismiss {
             model.isLoadDismiss = false
@@ -176,6 +201,7 @@ struct LoadView: View {
         }
     }
 }
+
 
 
 
