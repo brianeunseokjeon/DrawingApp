@@ -11,6 +11,7 @@ import func AVFoundation.AVMakeRect
 class MainViewController: UIViewController {
     
     // MARK: - Properties
+    @IBOutlet weak var backgroundImageView: UIImageView!
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var drawingView: DrawingView!
@@ -34,19 +35,19 @@ class MainViewController: UIViewController {
         imagePikcerController.delegate = self
         view.backgroundColor = .white
         drawingView.model = model
-//        model.image = #imageLiteral(resourceName: "aaa")
     }
     
     // MARK: - Button Action
     
     @IBAction func saveAction(_ sender: Any) {
         model.saveCoreDataLines()
-        let size = drawingView.bounds
+        let drawingSize = drawingView.bounds.size
         
-        let image = model.saveDrawing(size) ?? UIImage()
+        let size = backgroundImageView.calculateRectOfImageInImageView()
+        
+        let image = model.saveDrawing(drawingSize: drawingSize,imageCGRect: size, backgroundImage: backgroundImageView.image) ?? UIImage()
         DispatchQueue.global().async {
             UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.imageSaved(_:didFinishSavingWithError:contextType:)), nil)
-            
         }
     }
     //불러오기
@@ -61,7 +62,7 @@ class MainViewController: UIViewController {
     @IBAction func backgroundAdd(_ sender: UIButton) {
         imagePikcerController.sourceType = .photoLibrary
         present(imagePikcerController, animated: true, completion: nil)
-    
+        
     }
     @IBAction func undoAction(_ sender: UIButton) {
         drawingView.undoDraw()
@@ -83,17 +84,19 @@ class MainViewController: UIViewController {
         } else {
             model.isPenOpen = true
             self.collectionView.isHidden = false
-
+            
             UIView.animate(withDuration: 0.3) {
                 self.penBottomLayout.constant = 0
                 self.view.layoutIfNeeded()
             }
-
+            
         }
-
+        
     }
     
     @IBAction func clearAction(_ sender: UIButton) {
+        //1.0.1
+        backgroundImageView.image = nil
         drawingView.clearDraw()
     }
     
@@ -141,7 +144,8 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
 extension MainViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            model.image = image
+            //1.0.1 이미지뷰에 바로 넣으면 될듯
+            backgroundImageView.image = image
             drawingView.myDraw()
         }
         dismiss(animated: true, completion: nil)
@@ -153,3 +157,5 @@ extension MainViewController: LoadDrawingHelpable {
         drawingView.myDraw()
     }
 }
+
+

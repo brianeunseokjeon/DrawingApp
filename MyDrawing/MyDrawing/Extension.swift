@@ -32,14 +32,31 @@ extension DateFormatter {
 }
 
 
-//extension UIImage {
-//    func resized(toWidth width: CGFloat, interpolationQuality: CGInterpolationQuality = .none) -> CGContext {
-//        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width/size.width * size.height)))
-//        UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
-////        defer { UIGraphicsEndImageContext() }
-//        guard let context = UIGraphicsGetCurrentContext() else { return UIGraphicsGetCurrentContext()! }
-//        context.interpolationQuality = interpolationQuality
-//        draw(in: CGRect(origin: .zero, size: canvasSize))
-//        return context
-//    }
-//}
+extension UIImageView {
+    func calculateRectOfImageInImageView() -> CGRect {
+        let imageViewSize = self.frame.size
+        let imgSize = self.image?.size
+        
+        guard let imageSize = imgSize else {
+            return CGRect.zero
+        }
+        
+        let scaleWidth = imageViewSize.width / imageSize.width
+        let scaleHeight = imageViewSize.height / imageSize.height
+        let aspect = fmin(scaleWidth, scaleHeight)
+        let changeImageWidth = imageSize.width * aspect
+        let changeImaegHeight = imageSize.height * aspect
+        
+        var imageRect = CGRect(x: 0, y: 0, width: changeImageWidth, height: changeImaegHeight)
+        // Center image
+        imageRect.origin.x = (imageViewSize.width - imageRect.size.width) / 2
+        imageRect.origin.y = (imageViewSize.height - imageRect.size.height) / 2
+        
+        
+        return imageRect
+    }
+
+}
+
+
+

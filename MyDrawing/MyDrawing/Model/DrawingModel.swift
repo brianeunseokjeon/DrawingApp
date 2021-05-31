@@ -39,7 +39,7 @@ public final class DrawingEntity: NSObject, NSCoding {
 
 
 protocol DrawingGUIProtocol: class {
-    func draw(size:CGRect)
+    func draw(size:CGRect,image:UIImage?)
     func touchesBeganDrawingLineAppend()
     func touchesMoved(_ location:CGPoint,completion:()->())
     func clearDrawingView(completion:()->())
@@ -73,9 +73,9 @@ final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
         currentColor = pencilSet[tag].color
     }
     
-    var image: UIImage?
+//    var backgroundImage: UIImage?
     
-    func draw(size:CGRect) {
+    func draw(size:CGRect,image:UIImage? = nil) {
         guard let context = UIGraphicsGetCurrentContext() else {
             return
         }
@@ -114,7 +114,7 @@ final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     }
     
     func clearDrawingView(completion:()->()) {
-        image = nil
+//        image = nil
         drawingLines.removeAll()
         completion()
     }
@@ -141,9 +141,9 @@ final class DrawingModel:DrawingGUIProtocol ,PencilGUIProtocol {
     }
     
     
-    func saveDrawing(_ size:CGRect) -> UIImage? {
-        UIGraphicsBeginImageContext(size.size)
-        draw(size: size)
+    func saveDrawing(drawingSize:CGSize,imageCGRect:CGRect,backgroundImage:UIImage?) -> UIImage? {
+        UIGraphicsBeginImageContext(drawingSize)
+        draw(size: imageCGRect,image: backgroundImage)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         defer { UIGraphicsEndImageContext() }
         return image

@@ -13,7 +13,7 @@ class DrawingView: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        model?.draw(size: rect)
+        model?.draw(size: rect, image: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
